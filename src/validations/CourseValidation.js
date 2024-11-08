@@ -34,7 +34,7 @@ export const deactivateCourseSchema = {
 
 export const addCourseCriteriaSchema = {
     body: Joi.object({
-        courseId: Joi.number().required(),
+        courseIds: Joi.array().items(Joi.number()).required(),
         userRole: Joi.array().items(Joi.string()).required(),
         location: Joi.array().items(Joi.alternatives().try(Joi.number(), Joi.string().valid('*'))).required(),
         department: Joi.array().items(Joi.alternatives().try(Joi.number(), Joi.string().valid('*'))).required(),

@@ -3,7 +3,7 @@ import CourseRepo from "../repositories/CourseRepo.js";
 
 const CourseService = {
     addCourse: async (course) => {
-        await CourseRepo.createCourse(course);
+        return await CourseRepo.createCourse(course);
     },
     getAllCourses: (type) => {
         return CourseRepo.getAllCourses(type);
@@ -17,6 +17,10 @@ const CourseService = {
     deactivateCourse: async (id) => {
         // await CourseCriteriaRepo.deleteCourseCriteriaByCourseId(id);
         return await CourseRepo.deactivateCourse(id);
+    },
+    activateCourse: async (id) => {
+        // await CourseCriteriaRepo.deleteCourseCriteriaByCourseId(id);
+        return await CourseRepo.activateCourse(id);
     }
 }
 

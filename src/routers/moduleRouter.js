@@ -9,10 +9,11 @@ import verifyToken from '../middlewares/verifyToken.js';
 const moduleRouter = express.Router();
 
 moduleRouter.post('/add', verifyToken, validateInput(addModuleSchema), ModuleController.createModule);
-moduleRouter.get('/', verifyToken, ModuleController.getModules);
+moduleRouter.get('/:courseId', verifyToken, ModuleController.getModules);
 moduleRouter.get('/:id', verifyToken, validateInput(getModuleSchema) ,ModuleController.getModuleById);
 moduleRouter.put('/:id', validateInput(updateModuleSchema), ModuleController.updateModule);
 moduleRouter.get('/deactivate/:id', verifyToken, validateInput(deactivateModuleSchema), ModuleController.deactivateModule);
+moduleRouter.get('/activate/:id', verifyToken, validateInput(deactivateModuleSchema), ModuleController.activateModule);
 
 
 export default moduleRouter;

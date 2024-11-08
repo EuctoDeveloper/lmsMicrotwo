@@ -1,4 +1,5 @@
 import Course from "../models/CourseModel.js";
+import CourseCriteriaRepo from "./CourseCriteriaRepo.js";
 
 const CourseRepo = {
     async getAllCourses(type) {
@@ -23,10 +24,26 @@ const CourseRepo = {
             }
         }
 
-        return await Course.find(filter);
+        return await Course.aggregate([{
+            $match: filter
+        },
+    
+        {
+            $lookup: {
+                from: 'coursecriterias',
+                localField: 'courseId',
+                foreignField: 'courseId',
+                as: 'courseCriteria'
+            }
+        }]);
+    
+
+    // return await Course.aggregate(courseCriteria);
     },
     async getCourseById(id) {
-        return await Course.findOne({courseId: id});
+        let course = await Course.findOne({courseId: id});
+        let courseCriteria = await CourseCriteriaRepo.getCourseCriteria(id);
+        return {...course._doc, courseCriteria};
     },
     async createCourse(course) {
         return await Course.create(course);
@@ -36,6 +53,9 @@ const CourseRepo = {
     },
     async deactivateCourse(id) {
         return await Course.updateOne({courseId: id}, {isActive: false});
+    },
+    async activateCourse(id) {
+        return await Course.updateOne({courseId: id}, {isActive: true});
     }
 };
 

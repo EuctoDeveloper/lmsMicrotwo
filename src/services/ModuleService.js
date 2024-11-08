@@ -1,8 +1,8 @@
 import ModuleRepo from "../repositories/ModuleRepo.js";
 
 const ModuleService = {
-    getModules: async () => {
-        return await ModuleRepo.getModules();
+    getModules: async (courseId) => {
+        return await ModuleRepo.getModules(courseId);
     },
     getModuleById: async (id) => {
         return await ModuleRepo.getModuleById(id);
@@ -15,6 +15,9 @@ const ModuleService = {
     },
     deactivateModule: async (id) => {
         return await ModuleRepo.deactivateModule(id);
+    },
+    activateModule: async (id) => {
+        return await ModuleRepo.activateModule(id);
     }
 }
 

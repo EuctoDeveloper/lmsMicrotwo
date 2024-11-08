@@ -18,13 +18,15 @@ const lessonSchema = new mongoose.Schema({
     },
     source: {
         type: String,
-        required: true
+        default: "",
+        // required: true
     },
     thumbnail: {
         type: String,
-        required: function() {
-            return this.type === 'video';
-        }
+        default: "",
+        // required: function() {
+        //     return this.type === 'video';
+        // }
     },
     module: {
         type: Number,
@@ -36,6 +38,24 @@ const lessonSchema = new mongoose.Schema({
         ref: 'Course',
         required: true
     },
+    questions: [{
+        question: {
+            type: String,
+            required: true
+        },
+        options: [{
+            type: String,
+            required: true
+        }],
+        correctAnswer: {
+            type: String,
+            required: true
+        },
+        points: {
+            type: Number,
+            required: true
+        }
+    }],
     totalGrade: {
         type: Number,
         required: true

@@ -3,8 +3,11 @@ import catcher from "../utils/catcher.js";
 
 const CourseCriteriaController = {
     addCourseCriteria: catcher(async (req, res) => {
-        const { courseId, userRole, location, department, group, center, designation, branch, } = req.body;
-        const courseCriteria = await CourseCriteriaService.createCourseCriteria({ courseId, criteria:{
+        let { courseIds, userRole, location, department, group, center, designation, branch, } = req.body;
+        if(userRole.includes("*")) {
+            location = department = group = center = designation = branch = ["*"];
+        }
+        const courseCriteria = await CourseCriteriaService.createCourseCriteria({ courseIds, criteria:{
             userRole, location, department, group, center, designation, branch
         } });
         res.status(201).json({message:'Course Criteria Created Successfully', courseCriteria});

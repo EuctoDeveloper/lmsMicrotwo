@@ -41,6 +41,10 @@ const enrollmentSchema = new mongoose.Schema({
     updatedAt: {
         type: Date,
         default: Date.now
+    },
+    certificate: {
+        type: String,
+        default: null
     }
 });
 

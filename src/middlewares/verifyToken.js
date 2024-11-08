@@ -23,8 +23,12 @@ const verifyToken = async (req, res, next) => {
 
         if (response.data.status === 'success') {
             req.user= response.data.user;
-            console.log(response.data.user.role);
+            if (req.originalUrl.includes('master') && response.data.user.role !== 'admin') {
+                logger.error('Non admin Access to Master', req.headers.authorization);
+                return res.status(403).json({ error: 'Forbidden' });
+            }
             if(response.data.user.role !== 'admin' && response.data.user.role !== 'instructor') {
+                logger.error('Non admin/Instructor Access', req.headers.authorization);
                 return res.status(403).json({ error: 'Forbidden' });
             }
             next();

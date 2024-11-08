@@ -64,7 +64,7 @@ courseCriteriaSchema.pre('save', async function(next) {
             { $inc: { sequence_value: 1 } },
             { new: true, upsert: true }
         );
-        this.courseCriteriaId = counter.sequence_value;
+        this.courseCriteriaId = counter.sequence_value || 1;
     }
     next();
 });

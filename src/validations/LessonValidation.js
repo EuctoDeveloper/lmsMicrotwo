@@ -8,6 +8,13 @@ const addLessonSchema = {
         type: Joi.string().required().allow('video', 'assesment', 'document', 'gradedAssesment'),
         totalGrade: Joi.number().required(),
         courseId: Joi.number().required(),
+        attachment: Joi.any(),
+        questions: Joi.array().items(Joi.object({
+            question: Joi.string().required(),
+            options: Joi.array().items(Joi.string()).required(),
+            correctAnswer: Joi.string().required(),
+            points: Joi.number().required()
+        })).optional()
     })
 }
 const updateLessonSchema = {
@@ -16,6 +23,12 @@ const updateLessonSchema = {
         content: Joi.string().required(),
         type: Joi.string().required(),
         totalGrade: Joi.number().required(),
+        questions: Joi.array().items(Joi.object({
+            question: Joi.string().required(),
+            options: Joi.array().items(Joi.string()).required(),
+            correctAnswer: Joi.string().required(),
+            points: Joi.number().required()
+        })).optional()
     }),
     params: Joi.object({
         id: Joi.number().required()

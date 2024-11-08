@@ -27,9 +27,10 @@ const s3Client = new S3Client({
     const upload = new Upload({
       client: s3Client,
       params: {
-        Bucket: config.s3BucketName,
-        Key,
-        Body: file.buffer,
+      Bucket: config.s3BucketName,
+      Key,
+      Body: file.buffer,
+      ACL: 'public-read' // Make the file publicly accessible
       }
     });
   

@@ -1,8 +1,18 @@
 import Module from "../models/ModuleModel.js";
 
 const ModuleRepo = {
-    getModules: async () => {
-        return await Module.find();
+    getModules: async (course) => {
+        return await Module.aggregate([
+            { $match: { course: parseInt(course) } },
+            {
+            $lookup: {
+                from: 'lessons',
+                localField: 'moduleId',
+                foreignField: 'module',
+                as: 'lessons'
+            }
+            }
+        ]);
     },
     getModuleById: async (id) => {
         return await Module.findOne({moduleId: id});
@@ -15,6 +25,9 @@ const ModuleRepo = {
     },
     deactivateModule: async (id) => {
         return await Module.updateOne({moduleId: id}, {isActive: false});
+    },
+    activateModule: async (id) => {
+        return await Module.updateOne({moduleId: id}, {isActive: true});
     }
 }
 
