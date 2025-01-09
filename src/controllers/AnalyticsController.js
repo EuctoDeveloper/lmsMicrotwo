@@ -9,11 +9,17 @@ const AnalyticsController = {
         const customerCount = await User.countDocuments({ role: 'customer' });
         const employeeCount = await User.countDocuments({ role: 'employee' });
         const courseCount = await Course.countDocuments();
+        const customerActiveCount = await User.countDocuments({ role: 'customer', isActive: true });
+        const employeeActiveCount = await User.countDocuments({ role: 'employee', isActive: true });
+        const courseActiveCount = await Course.countDocuments({startDate: { $lt: new Date() }, isActive: true});
 
         res.json({
             customerCount,
             employeeCount,
-            courseCount
+            courseCount,
+            customerActiveCount,
+            employeeActiveCount,
+            courseActiveCount
         });
     }),
 }

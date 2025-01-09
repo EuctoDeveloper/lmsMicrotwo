@@ -21,18 +21,28 @@ const LessonController = {
         const { id } = req.params;
         const { title, type, source, content, totalGrade, questions } = req.body;
         const lesson = await LessonService.updateLesson(id, { title, type, source, content, totalGrade, questions }, req.files);
-        res.status(200).json({ message: 'Lesson Updated Successfully', lesson });
+        res.status(200).json({ message: `${type === "video" ? 'Lesson' : 'Assessment'} Updated Successfully`, lesson });
     }),
     deactivateLesson: catcher(async (req, res) => {
         const { id } = req.params;
-        await LessonService.deactivateLesson(id);
-        res.status(200).json({ message: 'Lesson Deactivated Successfully' });
+        const lesson = await LessonService.deactivateLesson(id);
+        res.status(200).json({ message: `${lesson.type === "video" ? 'Lesson' : 'Assessment'} Deactivated Successfully` });
     }),
     activateLesson: catcher(async (req, res) => {
         const { id } = req.params;
-        await LessonService.activateLesson(id);
-        res.status(200).json({ message: 'Lesson Activated Successfully' });
-    })
+        const lesson = await LessonService.activateLesson(id);
+        res.status(200).json({ message: `${lesson.type === "video" ? 'Lesson' : 'Assessment'} Activated Successfully` });
+    }),
+    saveLessonActivity: catcher(async (req, res) => {  
+        const { lessonId, activity } = req.body;
+        console.log(await LessonService.saveLessonActivity(lessonId, activity));
+        res.status(200).json({ message: `Lesson Activity Saved Successfully` });
+    }),
+    fetchLessonActivity: catcher(async (req, res) => {
+        const { lessonId } = req.params;
+        const activity = await LessonService.fetchLessonActivity(lessonId);
+        res.status(200).json({ activity });
+    }),
 }
 
 

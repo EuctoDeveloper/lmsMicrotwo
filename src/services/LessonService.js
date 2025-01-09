@@ -95,6 +95,13 @@ const LessonService = {
     },
     activateLesson: async (id) => {
         return await LessonRepo.activateLesson(id);
-    }
+    },
+    saveLessonActivity: async (lessonId, activity) => {
+        return await LessonRepo.saveLessonActivity(lessonId, activity);
+    },
+    fetchLessonActivity: async (lessonId) => {
+        const lesson = await LessonRepo.getLessonById(lessonId);
+        return lesson.activity;
+    },
 };
  export default LessonService;

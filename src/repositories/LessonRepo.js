@@ -11,10 +11,12 @@ const LessonRepo = {
         return await Lesson.updateOne({lessonId: id}, lesson);
     },
     deactivateLesson: async (id) => {
-        return await Lesson.updateOne({lessonId: id}, {isActive: false});
+        await Lesson.updateOne({lessonId: id}, {isActive: false});
+        return Lesson.findOne({lessonId: id});
     },
     activateLesson: async (id) => {
-        return await Lesson.updateOne({lessonId: id}, {isActive: true});
+        await Lesson.updateOne({lessonId: id}, {isActive: true});
+        return Lesson.findOne({lessonId: id});
     },
     getLessonsByModuleId: async (moduleId, selectInactive = false) => {
         return await Lesson.find({ module: moduleId, ...(!selectInactive ? {isActive: true} : {})});
@@ -24,6 +26,9 @@ const LessonRepo = {
     },
     deleteLessonsByCourseId: async (courseId) => {
         return await Lesson.deleteMany({ courseId });
+    },
+    saveLessonActivity: async (lessonId, activity) => {
+        return await Lesson.updateOne({ lessonId }, { activity }, { upsert: true });
     }
 }
 

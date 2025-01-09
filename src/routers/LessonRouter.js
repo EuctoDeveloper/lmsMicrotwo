@@ -20,7 +20,7 @@ lessonRouter.post('/', verifyToken, upload, validateInput(addLessonSchema), Less
 lessonRouter.put('/:id', verifyToken, upload, validateInput(updateLessonSchema), LessonController.updateLesson);
 lessonRouter.get('/deactivate/:id', verifyToken, validateInput(deactivateLessonSchema), LessonController.deactivateLesson);
 lessonRouter.get('/activate/:id', verifyToken, validateInput(deactivateLessonSchema), LessonController.activateLesson);
-
-
+lessonRouter.post('/activity', verifyToken, LessonController.saveLessonActivity);
+lessonRouter.get('/activity/:lessonId', verifyToken, LessonController.fetchLessonActivity);
 
 export default lessonRouter;
